@@ -1,0 +1,6 @@
+db.config.php
+.idea/
+composer.lock
+composer.json
+vendor/
+tables.sql

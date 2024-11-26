@@ -1,0 +1,131 @@
+body {
+    padding: 0.5rem 2rem;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    display: block;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+#theme-btn {
+    background: var(--secondary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+#theme-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+
+a:hover {
+    transform: translateY(-2px);
+    color: var(--text-color);
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.primary-btn {
+    padding: 0.2rem 1rem;
+    background: var(--primary-color);
+    color: var(--bg-color);
+    /*border-radius: 5px;*/
+    margin-right: 1rem;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+}
+
+button.primary-btn {
+    border: none;
+    padding: 0.5rem 1rem;
+}
+
+.primary-btn:hover{
+    background: var(--text-color);
+    transform: translateY(-2px);
+    color: var(--bg-color);
+}
+
+.secondary-btn {
+    color: var(--text2-color);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-right: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+hr {
+    border: 1px solid var(--text2-color);
+}
+
+textarea, input {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-left: 3px solid var(--primary-color);
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    outline: none;
+    font-family: "DM Mono", monospace;
+    margin: 0.3rem 0rem;
+}
+
+#message-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.1rem 2rem;
+    background: var(--secondary-color);
+    border-radius: 5px;
+    animation: fadeout 4s forwards;
+}
+
+#message-container #error {
+    color: #f85944;
+}
+
+#message-container #success {
+    color: var(--primary-color);
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.topic-container {
+    border-left: 3px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 0 0 3rem -2.3rem;
+    list-style-type: none;
+}
+
+.vote-history-container {
+    margin: 0 0 0 -2rem;
+    list-style-type: none;
+}
+
+p {
+    margin: 0.5rem 0;
+}
