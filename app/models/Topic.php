@@ -2,11 +2,25 @@
 
 class Topic extends Model
 {
+    private function validateTitle($title): bool {
+        if (!empty($title)) return true;
+        $this->error_message = 'Title cannot be empty';
+        return false;
+    }
+
+    private function validateDescription($description): bool {
+        if (!empty($description)) return true;
+        $this->error_message = 'Description cannot be empty';
+        return false;
+    }
+
     public function createTopic($user_id, $title, $description): bool
     {
+        if (!$this->validateTitle($title)) return false;
+        if (!$this->validateDescription($description)) return false;
         try {
             $stmt = $this->pdo->prepare("INSERT INTO Topics (user_id, title, description) VALUES (:user_id, :title, :description)");
-            $exec = $stmt->execute([
+            $stmt->execute([
                 ':user_id' => $user_id,
                 ':title' => $title,
                 ':description' => $description
@@ -26,7 +40,16 @@ class Topic extends Model
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM Topics");
             $stmt->execute();
-            return $stmt->fetchAll();
+            $topics = $stmt->fetchAll();
+            foreach ($topics as $key => $topic) {
+                $topics[$key] = new Topic($this->pdo);
+                $topics[$key]->id = $topic['id'];
+                $topics[$key]->user_id = $topic['user_id'];
+                $topics[$key]->title = $topic['title'];
+                $topics[$key]->description = $topic['description'];
+                $topics[$key]->created_at = $topic['created_at'];
+            }
+            return $topics;
         } catch (PDOException $e) {
             $this->error_message = 'Failed to get topics: (' . $e->getMessage() . ')';
             return false;

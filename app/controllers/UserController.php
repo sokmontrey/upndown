@@ -101,24 +101,22 @@ class UserController extends Controller
         $vote_manager = new Vote($pdo);
         $user_manager = new User($pdo);
         $comment_manager = new Comment($pdo);
-
         $user_id = $user_manager->getUserID($username);
-
-        $topics = $topic_manager->getCreatedTopics($user_id);
-        $created_votes = $vote_manager->getUserVoteHistory($user_id);
-
+        $topics = $topic_manager->getCreatedTopics($user_id) ?: [];
         // process topic to include creator username
         //    vote count
         //    user vote status
         //    comments
         foreach ($topics as $key => $topic) {
             $topics[$key]['username'] = $user_manager->getUsername($topic['user_id']);
-            $topics[$key]['votes'] = $vote_manager->getTopicVotes($topic['id']);
+            $topics[$key]['votes'] = $vote_manager->getTopicVotes($topic['id']) ?? [];
             // check if user has voted
             $topics[$key]['voted'] = $vote_manager->getUserVoteOption($topic['user_id'], $topic['id']) ?? '';
-            $topics[$key]['comments'] = $comment_manager->getComments($topic['id']);
+            $topics[$key]['comments'] = $comment_manager->getComments($topic['id']) ?? [];
+            $topics[$key]['created_at'] = TimeFormatter::formatTimestamp(strtotime($topic['created_at']));
         }
 
+        $created_votes = $vote_manager->getUserVoteHistory($user_id) ?? [];
         // process vote to include topic title and creator
         foreach ($created_votes as $key => $vote) {
             $topic = $topic_manager->getTopic($vote['topic_id']);

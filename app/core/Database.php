@@ -2,15 +2,20 @@
 class Database
 {
     private static $pdo = null;
+
+    /**
+     * Using the singleton pattern to create a single instance of the PDO object.
+     * So that we don't have to pass/store the PDO object around (except inside Model classes).
+     */
     public static function getPDO()
     {
         if (self::$pdo === null) {
             $db_config = require_once('db.config.php');
             try {
-                $host = $db_config['host'];
-                $username = $db_config['username'];
-                $password = $db_config['password'];
-                $database = $db_config['database'];
+                $host = $db_config['app']['host'];
+                $username = $db_config['app']['username'];
+                $password = $db_config['app']['password'];
+                $database = $db_config['app']['dbname'];
                 $dsn = "mysql:host=$host;dbname=$database;charset=utf8mb4";
                 $options = [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

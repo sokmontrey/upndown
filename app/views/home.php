@@ -5,17 +5,16 @@ $success_msg = $success_msg ?? '';
 $title = $title ?? '';
 $description = $description ?? '';
 $topics = $topics ?? [];
-$BASE_PATH = $BASE_PATH ?? '';
 ?>
 
 <header class="flex">
     <div class="flex" style="flex: 1;">
-        <h1 class="sans-font" style="padding-right: 1rem;">UpNDown</h1>
+        <h1 class="sans-font" style="padding-right: 1rem;">Votio</h1>
     </div>
 
     <nav class="flex">
-        <a href="<?= $BASE_PATH ?>/user/profile">
-            User: <?= $username ?>
+        <a href="<?= BASE_PATH ?>/user/profile">
+            <div class="profile-logo"><?= $username[0] ?></div>
         </a>
     </nav>
 </header>
@@ -31,7 +30,7 @@ $BASE_PATH = $BASE_PATH ?? '';
     <?php endif; ?>
 
     <h1 class="sans-font">Create a new topic</h1>
-    <form action="<?= $BASE_PATH ?>/topic/create" method="POST">
+    <form action="<?= BASE_PATH ?>/topic/create" method="POST">
         <!--            TODO: GIVE INPUT SOME LABELS-->
         <input type="text" name="title" placeholder="Title" value="<?= $title ?>">
         <br>
@@ -44,5 +43,5 @@ $BASE_PATH = $BASE_PATH ?? '';
     <hr>
 
     <h1 class="sans-font" style="margin-bottom: 0px;">Topics</h1>
-    <?= require_once 'topic_component.php' ?>
+    <?php require_once 'topic_component.php' ?>
 </main>

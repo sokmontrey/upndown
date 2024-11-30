@@ -2,11 +2,17 @@
 
 class Comment extends Model
 {
+    private function validateComment($comment): bool {
+        if (!empty($comment)) return true;
+        $this->error_message = 'Comment cannot be empty';
+        return false;
+    }
+
     public function addComment($user_id, $topic_id, $comment): bool
     {
         try {
             $stmt = $this->pdo->prepare("INSERT INTO Comments (user_id, topic_id, comment) VALUES (:user_id, :topic_id, :comment)");
-            $exec = $stmt->execute([
+            $stmt->execute([
                 ':user_id' => $user_id,
                 ':topic_id' => $topic_id,
                 ':comment' => $comment

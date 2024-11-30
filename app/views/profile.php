@@ -2,25 +2,27 @@
 $username = $username ?? '';
 $created_topics = $created_topics ?? [];
 $created_votes = $created_votes ?? [];
-$BASE_PATH = $BASE_PATH ?? '';
-$THEME = $THEME ?? 'light';
 ?>
+
 <header class="flex">
     <div class="flex" style="flex: 1;">
-        <a class="sans-font" style="padding-right: 1rem;" href="<?=$BASE_PATH?>/home/index">
+        <a class="sans-font" style="padding-right: 1rem;" href="<?=BASE_PATH?>/home/index">
             <h1>
                 <i class="fa-solid fa-arrow-left"></i>
-                UpNDown
+                Votio
             </h1>
         </a>
-        <a href="<?=$BASE_PATH?>/setting/switchTheme" id="theme-btn">
-            <?=$THEME === 'light' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>' ?>
+        <a href="<?=BASE_PATH?>/setting/switchTheme" id="theme-btn">
+            <?=THEME === 'light' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>' ?>
         </a>
     </div>
 
     <nav class="flex">
-        <p style="padding-right: 2rem;">User: <?=$username?></p>
-        <a href="<?=$BASE_PATH?>/user/logout" class="">Logout</a>
+        <span style="padding-right: 2rem;" class="flex">
+            <div class="profile-logo"><?= $username[0] ?></div>
+            <?=$username?>
+        </span>
+        <a href="<?=BASE_PATH?>/user/logout" class="">Logout</a>
     </nav>
 </header>
 
@@ -29,7 +31,7 @@ $THEME = $THEME ?? 'light';
 <main>
     <h2>Created Topics:</h2>
     <?php $topics = $created_topics ?>
-    <?= require_once 'topic_component.php' ?>
+    <?php require_once 'topic_component.php' ?>
 
     <hr>
 

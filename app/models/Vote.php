@@ -24,7 +24,7 @@ class Vote extends Model
         if (!$this->validateVoteType($vote_type)) return false;
         try {
             $stmt = $this->pdo->prepare("INSERT INTO Votes (user_id, topic_id, vote_type) VALUES (:user_id, :topic_id, :vote_type)");
-            $exec = $stmt->execute([
+            $stmt->execute([
                 ':user_id' => $user_id,
                 ':topic_id' => $topic_id,
                 ':vote_type' => $vote_type

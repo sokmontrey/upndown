@@ -30,7 +30,6 @@ class TopicController extends Controller
         $topic_manager = new Topic($pdo);
         $user_manager = new User($pdo);
         $user_id = $user_manager->getUserId($username);
-
         if (!$topic_manager->createTopic($user_id, $title, $description)) {
             $this->redirect('home', 'index', ['error_msg' => $topic_manager->error_message]);
             return;

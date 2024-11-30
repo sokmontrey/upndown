@@ -2,28 +2,32 @@
 $error_msg = $error_msg ?? '';
 $successful = $successful ?? false;
 $username = $username ?? '';
-$BASE_PATH = $BASE_PATH ?? '';
 ?>
 
 <header class="flex">
     <div class="flex" style="flex: 1;">
-        <h1 class="sans-font" style="padding-right: 1rem;">UpNDown</h1>
+        <h1 class="sans-font" style="padding-right: 1rem;">Votio</h1>
     </div>
 </header>
 
 <main>
-    <h1 style="font-size: 1.5rem;" class="sans-font">Login to your account</h1>
+    <p style="color: green;"><?= $successful ? "Successfully created your account. Please Login." : "" ?></p>
+    <p style="color: red;"><?= $error_msg ?></p>
 
-    <form action="<?= $BASE_PATH ?>/user/login" method="POST">
-        <p style="color: green;"><?= $successful ? "Successfully created your account. Please Login." : "" ?></p>
-        <p style="color: red;"><?= $error_msg ?></p>
-        <input type="text" name="username" required placeholder="Username" value="<?= $username ?>">
-        <input type="password" name="password" required placeholder="Password">
-        <button type="submit" class="primary-btn">Login</button>
+    <form action="<?= BASE_PATH ?>/user/login" method="POST" id="login-form">
+        <div style="margin-top: -1.1rem; margin-bottom: 2rem; color: var(--primary-color);">
+            <h1 class="sans-font">Login to your account</h1>
+        </div>
+        <label for="username-inp">Username </label>
+        <input type="text" id="username-inp" class="flex-1" name="username" required placeholder="Enter your username" value="<?= $username ?>">
+        <label for="password-inp">Password</label>
+        <input type="password" id="password-inp" class="flex-1" name="password" required placeholder="Enter your password">
+        <div style="margin-top: 2rem;">
+            <p style="display: inline;">
+                New here?
+                <a style="display: inline;" href="<?= BASE_PATH ?>/user/register">Register instead.</a>
+            </p>
+            <button type="submit" class="primary-btn">Login</button>
+        </div>
     </form>
-
-    <p>
-        Doesn't have an account?
-        <a style="display: inline;" href="<?= $BASE_PATH ?>/user/register">Create a new account.</a>
-    </p>
 </main>

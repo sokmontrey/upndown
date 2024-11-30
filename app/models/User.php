@@ -1,18 +1,28 @@
 <?php
 
+require_once (__DIR__ . '/../core/Model.php');
+
 class User extends Model
 {
+    private function validateUsername($username): bool {
+        if (!empty($username)) return true;
+        $this->error_message = "Username cannot be empty";
+        return false;
+    }
+
     private function validateEmail($email): bool
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->error_message = 'Invalid email address';
-            return false;
-        }
-        return true;
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) return true;
+        $this->error_message = 'Invalid email address';
+        return false;
     }
 
     private function validatePassword($password, $confirm_password): bool
     {
+        if ($password == '') {
+            $this->error_message = 'Password cannot be empty';
+            return false;
+        }
         if ($confirm_password != '' && $password !== $confirm_password) {
             $this->error_message = 'Passwords do not match';
             return false;
@@ -30,7 +40,7 @@ class User extends Model
     public function validateExistedUser($username): bool
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username");
+            $stmt = $this->pdo->prepare("SELECT * FROM Users WHERE username = :username");
             $stmt->execute([':username' => $username]);
             $user = $stmt->fetch();
             if ((bool)$user) {
@@ -49,13 +59,14 @@ class User extends Model
      */
     public function registerUser($username, $email, $password, $confirm_password = ''): bool
     {
+        if (!$this->validateUsername($username)) return false;
         if (!$this->validateEmail($email)) return false;
         if (!$this->validatePassword($password, $confirm_password)) return false;
         if (!$this->validateExistedUser($username)) return false;
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO users (username, email, password) VALUES (:username, :email, :password)");
-            $exec = $stmt->execute([
+            $stmt = $this->pdo->prepare("INSERT INTO Users (username, email, password) VALUES (:username, :email, :password)");
+            $stmt->execute([
                 ':username' => $username,
                 ':email' => $email,
                 ':password' => $password_hash,
@@ -73,8 +84,10 @@ class User extends Model
      */
     public function authenticateUser($username, $password): bool
     {
+        if (!$this->validateUsername($username)) return false;
+        if (!$this->validatePassword($password, $password)) return false;
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username");
+            $stmt = $this->pdo->prepare("SELECT * FROM Users WHERE username = :username");
             $stmt->execute([':username' => $username]);
             $user = $stmt->fetch();
             if (!$user) {
@@ -97,13 +110,13 @@ class User extends Model
      */
     public function getUserId($username): int {
         try {
-            $stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = :username");
+            $stmt = $this->pdo->prepare("SELECT id FROM Users WHERE username = :username");
             $stmt->execute([':username' => $username]);
-            $user = $stmt->fetchAll();
-            return $user[0]['id'];
+            $user = $stmt->fetch();
+            return $user['id'];
         } catch (PDOException $e) {
             $this->error_message = 'Failed to get user id: (' . $e->getMessage() . ')';
-            return 0;
+            return -1;
         }
     }
 
@@ -112,7 +125,7 @@ class User extends Model
      */
     public function getUsername($user_id) {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id = :user_id");
+            $stmt = $this->pdo->prepare("SELECT * FROM Users WHERE id = :user_id");
             $stmt->execute([':user_id' => $user_id]);
             $user = $stmt->fetchAll();
             return $user[0]['username'];

@@ -28,20 +28,25 @@ class HomeController extends Controller
         $vote_manager = new Vote($pdo);
         $comment_manager = new Comment($pdo);
 
-        $username = Session::getSession('username');
-        $topics = $topic_manager->getTopics();
+        $username = Session::getSession('login');
+        $raw_topics = $topic_manager->getTopics() ?: [];
         // process topic to include creator username
         //    vote count
         //    user vote status
         //    comments
-        foreach ($topics as $key => $topic) {
-            $topics[$key]['username'] = $user_manager->getUsername($topic['user_id']);
-            $topics[$key]['votes'] = $vote_manager->getTopicVotes($topic['id']);
-            // check if user has voted
-            $topics[$key]['voted'] = $vote_manager->getUserVoteOption($topic['user_id'], $topic['id']) ?? '';
-            $topics[$key]['comments'] = $comment_manager->getComments($topic['id']);
-            $topics[$key]['created_at'] = TimeFormatter::formatTimestamp(strtotime($topic['created_at']));
-        }
+        $topics = array_map(function ($topic) use ($user_manager, $vote_manager, $comment_manager) {
+            return [
+                'id' => $topic->id,
+                'title' => $topic->title,
+                'description' => $topic->description,
+                'user_id' => $topic->user_id,
+                'username' => $user_manager->getUsername($topic->user_id),
+                'votes' => $vote_manager->getTopicVotes($topic->id) ?? [],
+                'voted' => $vote_manager->getUserVoteOption($topic->user_id, $topic->id) ?? '',
+                'comments' => $comment_manager->getComments($topic->id) ?? [],
+                'created_at' => TimeFormatter::formatTimestamp(strtotime($topic->created_at))
+            ];
+        }, $raw_topics);
 
         $this->render('home', [
             'username' => $username,

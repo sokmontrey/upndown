@@ -1,4 +1,7 @@
 <?php
+
+define("BASE_PATH", rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'));
+
 require_once 'app/core/Controller.php';
 require_once 'app/core/Model.php';
 require_once 'app/core/TimeFormatter.php';
@@ -13,27 +16,30 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// Routing
+if (session_status() == PHP_SESSION_NONE) session_start();
+//define("THEME", Session::getSession('theme') ?? 'light');
+define("THEME", 'dark');
+
+// -------------------------------- Routing --------------------------------
+
+// process the uri
 $uri = $_SERVER['REQUEST_URI'];
-// clean up the uri due to different environments path
-$uri = explode('?', $uri)[0];
-$uri = rtrim($uri, '/');
-$uri = ltrim($uri, '/');
-// [... , 'controller', 'action']
-$uri = explode('/', $uri);
-$controller_name = $uri[count($uri)-2];
-$action_name = $uri[count($uri)-1];
+$uri = substr($uri, strlen(BASE_PATH) + 1); // remove base path
+$uri = explode('?', $uri)[0]; // remove query string
+$uri = ltrim(rtrim($uri, '/'), '/'); // remove trailing slashes
+$uri = explode('/', $uri); // split the uri
+
+$controller_name = $uri[0] === '' ? 'home' : $uri[0];
+$action_name = $uri[1] ?? 'index';
 
 // format controller name to match the class name
 $controller_name = ucfirst($controller_name) . 'Controller';
-
 if (!file_exists("app/controllers/{$controller_name}.php")) {
     http_response_code(404);
     echo '404 Not Found';
     exit();
 }
 $controller = new $controller_name();
-
 if (!method_exists($controller, $action_name)) {
     http_response_code(404);
     echo '404 Not Found';

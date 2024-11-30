@@ -1,10 +1,4 @@
 <?php
-
-use app\core\TimeFormatter;
-use app\models\Comment;
-use app\models\Topic;
-use app\models\User;
-use app\models\Vote;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../classes.php';
@@ -16,21 +10,30 @@ class VotingAppTest extends TestCase {
     public static function setUpBeforeClass(): void {
         // Load database connection information
         $config = include __DIR__ . '/../db.config.php';
-        self::$dbName = 'test_db_' . uniqid();
-
+        self::$dbName = $config['test']['dbname'];
+        
         try {
             self::$pdo = new PDO(
-                "mysql:host={$config['host']}",
-                $config['username'],
-                $config['password']
+                "mysql:host={$config['test']['host']}",
+                $config['test']['username'],
+                $config['test']['password']
             );
             self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$pdo->exec("CREATE DATABASE IF NOT EXISTS " . self::$dbName);
+            // Assuming the database already exists on shared hosting. No CREATE DATABASE statement.
             self::$pdo->exec("USE " . self::$dbName);
-
+    
             $tablesSqlPath = __DIR__ . '/../tables.sql';
             if (file_exists($tablesSqlPath)) {
-                $tablesSql = file_get_contents($tablesSqlPath);
+                
+            // Drop all existing tables before applying the schema
+            $result = self::$pdo->query("SHOW TABLES");
+            if ($result) {
+                while ($row = $result->fetch(PDO::FETCH_NUM)) {
+                    self::$pdo->exec("SET foreign_key_checks = 0;DROP TABLE IF EXISTS " . $row[0] ."; SET foreign_key_checks = 1;");
+                }
+            }
+
+            $tablesSql = file_get_contents($tablesSqlPath);
                 self::$pdo->exec($tablesSql);
             } else {
                 throw new Exception("Schema file tables.sql is missing.");
@@ -48,17 +51,6 @@ class VotingAppTest extends TestCase {
             self::$pdo->exec("DELETE FROM Votes");
             self::$pdo->exec("DELETE FROM Topics");
             self::$pdo->exec("DELETE FROM Users");
-        }
-    }
-
-    public static function tearDownAfterClass(): void {
-        if (self::$pdo) {
-            try {
-                self::$pdo->exec("DROP DATABASE IF EXISTS " . self::$dbName);
-            } catch (Exception $e) {
-                throw new Exception("Failed to drop the temporary database: " . $e->getMessage());
-            }
-            self::$pdo = null;
         }
     }
 
@@ -156,6 +148,51 @@ class VotingAppTest extends TestCase {
         $this->assertEquals('Test Topic 1', $topics[0]->title, "Topic title mismatch");
     }
 
+    public function testGetCreatedTopics() {
+        $user = new User(self::$pdo);
+        $topic = new Topic(self::$pdo);
+    
+        // Create a test user
+        $username = 'testuser';
+        $email = 'testuser@example.com';
+        $password = 'password123';
+        $user->registerUser($username, $email, $password);
+        $userId = self::$pdo->lastInsertId();
+    
+        // Add topics created by the test user
+        $topics = [
+            ['title' => 'First Topic', 'description' => 'Description of the first topic.'],
+            ['title' => 'Second Topic', 'description' => 'Description of the second topic.']
+        ];
+    
+        foreach ($topics as $t) {
+            $topic->createTopic($userId, $t['title'], $t['description']);
+        }
+    
+        // Fetch topics created by the test user
+        $createdTopics = $topic->getCreatedTopics($userId);
+    
+        // Verify the returned array
+        $this->assertIsArray($createdTopics, "getCreatedTopics should return an array.");
+        $this->assertCount(2, $createdTopics, "getCreatedTopics should return exactly 2 topics.");
+    
+        // Verify individual topic details
+        foreach ($createdTopics as $index => $createdTopic) {
+            $this->assertEquals($topics[$index]['title'], $createdTopic['title'], "Topic title mismatch.");
+            $this->assertEquals($topics[$index]['description'], $createdTopic['description'], "Topic description mismatch.");
+    
+            // Verify the topic's userId in the database
+            $stmt = self::$pdo->prepare("SELECT * FROM Topics WHERE id = ?");
+            $stmt->execute([$createdTopic['id']]);
+            $dbRecord = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            $this->assertNotEmpty($dbRecord, "No database record found for topic ID: {$createdTopic['id']}.");
+            $this->assertEquals($userId, $dbRecord['user_id'], "Topic does not belong to the expected user.");
+        }
+    }
+    
+    
+
     // Enhanced Vote Tests
     public function testVoteWithValidData() {
         $vote = new Vote(self::$pdo);
@@ -178,10 +215,10 @@ class VotingAppTest extends TestCase {
         $userId = $this->createTestUser();
         $topicId = $this->createTestTopic($userId);
 
-        $this->assertFalse($vote->hasVoted($userId, $topicId), "hasVoted should return false before voting");
+        $this->assertFalse($vote->hasVoted($topicId,$userId), "hasVoted should return false before voting");
 
         $vote->vote($userId, $topicId, 'up');
-        $this->assertTrue($vote->hasVoted($userId, $topicId), "hasVoted should return true after voting");
+        $this->assertTrue($vote->hasVoted($topicId,$userId), "hasVoted should return true after voting");
     }
 
     // Enhanced Comment Tests

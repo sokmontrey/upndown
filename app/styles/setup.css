@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 :root {
-    --bg-light: #dadee5;
-    --text-light: #32393D;
-    --text2-light: #B1BFC8;
-    --primary-light: #269274;
-    --secondary-light: #b8bdbb;
+    --bg-light: #E7EAE0;
+    --text-light: #191A1B;
+    --text2-light: #C8CBC1;
+    --primary-light: #79A617;
+    --secondary-light: #B34021;
 
-    --bg-dark: #1F2326;
-    --text-dark: #cecece;
-    --text2-dark: #57565B;
-    --primary-dark: #25B38B;
-    --secondary-dark: #263C3B;
+    --bg-dark: #191A1B;
+    --text-dark: #E7EAE0;
+    --text2-dark: #232425;
+    --primary-dark: #79A617;
+    --secondary-dark: #D64B24;
 }
 
 .mono-font {

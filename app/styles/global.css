@@ -12,8 +12,13 @@ a {
     cursor: pointer;
 }
 
+p, h1 {
+    margin: 0rem;
+}
+
 #theme-btn {
-    background: var(--secondary-color);
+    background: var(--text2-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,9 +39,50 @@ a:hover {
     color: var(--text-color);
 }
 
+label input {
+    margin-left: 1rem;
+}
+
 .flex {
     display: flex;
     align-items: center;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+#registration-form,
+#login-form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    text-align: right;
+    gap: 0 1rem;
+    width: 70%;
+    margin: 5rem auto;
+    border: solid 3px var(--text2-color);
+    padding: 0 2.3rem 1rem;
+}
+
+#registration-form > div,
+#login-form > div {
+    text-align: left;
+    grid-column: span 2;
+    display: flex;
+}
+
+#registration-form > div > p,
+#login-form > div >p {
+    flex: 1;
+}
+
+#registration-form h1,
+#login-form h1 {
+    display: inline;
+    padding: 0rem 1rem;
+    font-size: 1.5rem;
+    background: var(--bg-color);
 }
 
 .primary-btn {
@@ -44,7 +90,6 @@ a:hover {
     background: var(--primary-color);
     color: var(--bg-color);
     /*border-radius: 5px;*/
-    margin-right: 1rem;
     font-weight: bold;
     transition: all 0.2s ease-in-out;
 }
@@ -64,7 +109,6 @@ button.primary-btn {
     color: var(--text2-color);
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    margin-right: 1rem;
     transition: all 0.3s ease-in-out;
 }
 
@@ -76,11 +120,22 @@ textarea, input {
     padding: 0.5rem 1rem;
     border: none;
     border-left: 3px solid var(--primary-color);
-    background: var(--secondary-color);
-    color: var(--primary-color);
+    background: var(--text2-color);
+    color: var(--text-color);
     outline: none;
     font-family: "DM Mono", monospace;
-    margin: 0.3rem 0rem;
+    margin: 0.3rem 0;
+    transition: all 0.1s ease-in-out;
+}
+
+textarea:hover,
+input:hover{
+    border-left: 7px solid var(--primary-color);
+}
+
+textarea:focus,
+input:focus {
+    border-left: 7px solid var(--text-color);
 }
 
 #message-container {
@@ -88,7 +143,7 @@ textarea, input {
     top: 1rem;
     right: 1rem;
     padding: 0.1rem 2rem;
-    background: var(--secondary-color);
+    background: var(--text2-color);
     border-radius: 5px;
     animation: fadeout 4s forwards;
 }
@@ -128,4 +183,16 @@ textarea, input {
 
 p {
     margin: 0.5rem 0;
+}
+
+.profile-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--bg-color);
+    font-size: 1.2rem;
+    background: var(--primary-color);
 }
