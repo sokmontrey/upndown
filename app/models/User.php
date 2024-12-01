@@ -113,6 +113,10 @@ class User extends Model
             $stmt = $this->pdo->prepare("SELECT id FROM Users WHERE username = :username");
             $stmt->execute([':username' => $username]);
             $user = $stmt->fetch();
+            if ($user === false) {
+                $this->error_message = 'User not found';
+                return -1;
+            }
             return $user['id'];
         } catch (PDOException $e) {
             $this->error_message = 'Failed to get user id: (' . $e->getMessage() . ')';
@@ -127,8 +131,12 @@ class User extends Model
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM Users WHERE id = :user_id");
             $stmt->execute([':user_id' => $user_id]);
-            $user = $stmt->fetchAll();
-            return $user[0]['username'];
+            $user = $stmt->fetch();
+            if ($user === false) {
+                $this->error_message = 'User not found';
+                return 0;
+            }
+            return $user['username'];
         } catch (PDOException $e) {
             $this->error_message = 'Failed to get user info: (' . $e->getMessage() . ')';
             return 0;

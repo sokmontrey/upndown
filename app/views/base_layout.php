@@ -6,13 +6,15 @@
         @import url('<?=BASE_PATH?>/app/styles/global.css');
         :root { /* Global variables for page theme */
             --bg-color: var(<?='--bg-'.THEME?>);
-            --text-color: var(<?='--text-'.THEME?>);
-            --text2-color: var(<?='--text2-'.THEME?>);
-            --primary-color: var(<?='--primary-'.THEME?>);
-            --secondary-color: var(<?='--secondary-'.THEME?>);
+            --txt-color: var(<?='--txt-'.THEME?>);
+            --txt-sec-color: var(<?='--txt-sec-'.THEME?>);
+            --prm-color: var(<?='--prm-'.THEME?>);
+            --sur-color: var(<?='--sur-'.THEME?>);
+            --err-color: var(<?='--err-'.THEME?>);
+            --suc-color: var(<?='--suc-'.THEME?>);
         }
     </style>
-    <title>Votio</title>
+    <title>Votio: Voting App</title>
 </head>
 
 <body class="mono-font">

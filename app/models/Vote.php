@@ -98,8 +98,8 @@ class Vote extends Model
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM Votes WHERE user_id = :user_id AND topic_id = :topic_id");
             $stmt->execute([':user_id' => $user_id, ':topic_id' => $topic_id]);
-            $vote = $stmt->fetchAll()[0];
-            return $vote ? $vote['vote_type'] : null;
+            $vote = $stmt->fetchAll();
+            return $vote ? $vote[0]['vote_type'] : null;
         } catch (PDOException $e) {
             $this->error_message = 'Failed to get user vote option: (' . $e->getMessage() . ')';
             return null;

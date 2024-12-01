@@ -7,41 +7,39 @@ $description = $description ?? '';
 $topics = $topics ?? [];
 ?>
 
-<header class="flex">
-    <div class="flex" style="flex: 1;">
-        <h1 class="sans-font" style="padding-right: 1rem;">Votio</h1>
+<header>
+    <div id="app-logo">
+        <h1 class="sans-font" >Votio</h1>
     </div>
 
     <nav class="flex">
         <a href="<?= BASE_PATH ?>/user/profile">
-            <div class="profile-logo"><?= $username[0] ?></div>
+            <div class="profile-logo"><?= $username[0].($username[1]??'') ?></div>
         </a>
     </nav>
 </header>
 
-<hr>
-
 <main>
     <?php if ($error_msg || $success_msg): ?>
-        <div id="message-container">
-            <p id="error"><?= $error_msg ?></p>
-            <p id="success"><?= $success_msg ?></p>
-        </div>
+    <div id="message-container">
+        <p><?= $error_msg ?></p>
+        <p><?= $success_msg ?></p>
+    </div>
     <?php endif; ?>
 
-    <h1 class="sans-font">Create a new topic</h1>
-    <form action="<?= BASE_PATH ?>/topic/create" method="POST">
-        <!--            TODO: GIVE INPUT SOME LABELS-->
-        <input type="text" name="title" placeholder="Title" value="<?= $title ?>">
-        <br>
-        <textarea name="description" rows="5" cols="50" placeholder="Description"><?= $description ?></textarea>
-        <br>
-        <br>
-        <button class="primary-btn" type="submit">Create</button>
-    </form>
+    <div id="main-container">
+        <form action="<?= BASE_PATH ?>/topic/create" method="POST" id="topic-form">
+            <h1 class="sans-font">Create a new topic</h1>
+            <label for="title">Title</label>
+            <input type="text" name="title" placeholder="Topic title..." value="<?= $title ?>">
+            <label for="description">Description</label>
+            <textarea name="description" rows="5" cols="50" placeholder="Your opinion..."><?= $description ?></textarea>
+            <button class="primary-btn" type="submit">Create</button>
+        </form>
 
-    <hr>
-
-    <h1 class="sans-font" style="margin-bottom: 0px;">Topics</h1>
-    <?php require_once 'topic_component.php' ?>
+        <div id="topics">
+            <h1 class="sans-font" style="margin-bottom: 0px;">Topics</h1>
+            <?php require_once 'topic_component.php' ?>
+        </div>
+    </div>
 </main>

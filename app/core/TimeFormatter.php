@@ -3,11 +3,6 @@
 class TimeFormatter
 {
     /**
-     * Converts a timestamp into a formatted string.
-     * For timestamps within the last 12 months,
-     *      it returns a relative format such as "5 minutes ago" or "3 hours ago".
-     * For timestamps older than 12 months,
-     *      it returns the actual date in the format "M d, Y" (e.g., "Jan 5, 2022").
      * @param int $timestamp Unix timestamp
      **/
     public static function formatTimestamp($timestamp): string

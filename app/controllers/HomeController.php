@@ -27,6 +27,8 @@ class HomeController extends Controller
         $user_manager = new User($pdo);
         $vote_manager = new Vote($pdo);
         $comment_manager = new Comment($pdo);
+        $username = Session::getSession('login');
+        $user_id = $user_manager->getUserId($username);
 
         $username = Session::getSession('login');
         $raw_topics = $topic_manager->getTopics() ?: [];
@@ -34,19 +36,19 @@ class HomeController extends Controller
         //    vote count
         //    user vote status
         //    comments
-        $topics = array_map(function ($topic) use ($user_manager, $vote_manager, $comment_manager) {
-            return [
+        foreach ($raw_topics as $topic) {
+            $topics[] = [
                 'id' => $topic->id,
                 'title' => $topic->title,
                 'description' => $topic->description,
                 'user_id' => $topic->user_id,
                 'username' => $user_manager->getUsername($topic->user_id),
                 'votes' => $vote_manager->getTopicVotes($topic->id) ?? [],
-                'voted' => $vote_manager->getUserVoteOption($topic->user_id, $topic->id) ?? '',
+                'voted' => $vote_manager->getUserVoteOption($user_id, $topic->id) ?? '',
                 'comments' => $comment_manager->getComments($topic->id) ?? [],
                 'created_at' => TimeFormatter::formatTimestamp(strtotime($topic->created_at))
             ];
-        }, $raw_topics);
+        }
 
         $this->render('home', [
             'username' => $username,

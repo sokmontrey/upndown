@@ -62,7 +62,7 @@ class TopicController extends Controller
         $user_id = $user_manager->getUserId($username);
 
         if ($vote_manager->hasVoted($user_id, $topic_id)) {
-            $this->redirect('home', 'index', ['error_msg' => 'You have already voted']);
+            $this->redirect('home', 'index', ['error_msg' => 'You have already voted this topic']);
             return;
         }
 

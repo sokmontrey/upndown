@@ -1,23 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 :root {
-    --bg-light: #E7EAE0;
-    --text-light: #191A1B;
-    --text2-light: #C8CBC1;
-    --primary-light: #79A617;
-    --secondary-light: #B34021;
+    /* Light theme */
+    --bg-light: #F8F9FA;
+    --txt-light: #1F2430;
+    --txt-sec-light: #595c68;
+    --prm-light: #F2AE49;
+    --sur-light: #e5e6e9;
+    --err-light: #F07171;
+    --suc-light: #4CBF99;
 
-    --bg-dark: #191A1B;
-    --text-dark: #E7EAE0;
-    --text2-dark: #232425;
-    --primary-dark: #79A617;
-    --secondary-dark: #D64B24;
+    /* Dark theme */
+    --bg-dark: #0B0E14;
+    --txt-dark: #F8F9FA;
+    --txt-sec-dark: #8d949a;
+    --prm-dark: #FFB454;
+    --sur-dark: #03080c;
+    --err-dark: #F26D78;
+    --suc-dark: #7FD962;
+
+    --mono-font: 'DM Mono', monospace;
+    --sans-font: 'DM Sans', sans-serif;
 }
 
 .mono-font {
-    font-family: "DM Mono", monospace;
+    font-family: var(--mono-font), monospace;
 }
 
 .sans-font {
-    font-family: "DM Sans", sans-serif;
+    font-family: var(--sans-font), sans-serif;
 }

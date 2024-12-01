@@ -5,31 +5,35 @@ $topics = $topics ?? [];
 <ul>
     <?php foreach ($topics as $topic): ?>
         <li class="topic-container">
-            <p style="color: var(--text-color);">By <?= $topic['username'] ?></p>
-            <p><?= $topic['created_at'] ?></p>
             <h2><?= $topic['title'] ?></h2>
             <p><?= $topic['description'] ?></p>
 
+            <div class="create-info">
+                <p>By <?= $topic['username'] ?></p>
+                <p> . <?= $topic['created_at'] ?></p>
+            </div>
+
             <?php
             $voted = $topic['voted'];
-            $up_color = $voted === 'up' ? 'color: var(--primary-color);' : 'color: var(--text2-color);';
-            $down_color = $voted === 'down' ? 'color: var(--primary-color);' : 'color: var(--text2-color);';
+            $up_color = $voted === 'up' ? 'color: var(--suc-color);' : 'color: var(--txt-sec-color);';
+            $down_color = $voted === 'down' ? 'color: var(--err-color);' : 'color: var(--txt-sec-color);';
             ?>
-            <div class="flex">
+            <div class="vote-container">
                 <a href="<?= BASE_PATH ?>/topic/voteUp?id=<?= $topic['id'] ?>"
-                   style="margin-right: 3rem; <?= $up_color ?>">
+                   style="margin-right: 0.5rem; <?= $up_color ?>">
                     <?= $topic['votes']['up'] ?> <i class="fa-solid fa-up-long"></i>
                 </a>
                 <a href="<?= BASE_PATH ?>/topic/voteDown?id=<?= $topic['id'] ?>" style="<?= $down_color ?>">
                     <?= $topic['votes']['down'] ?> <i class="fa-solid fa-down-long"></i>
                 </a>
             </div>
-            <h3>Comments:</h3>
+
+            <h2>Comments</h2>
             <ul>
                 <?php foreach ($topic['comments'] as $comment): ?>
-                    <li>
-                        <p><?= $comment['comment'] ?></p>
-                    </li>
+                <li>
+                    <p><?= $comment['comment'] ?></p>
+                </li>
                 <?php endforeach; ?>
             </ul>
             <form action="<?= BASE_PATH ?>/topic/comment" method="POST">

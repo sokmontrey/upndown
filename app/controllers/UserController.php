@@ -111,7 +111,7 @@ class UserController extends Controller
             $topics[$key]['username'] = $user_manager->getUsername($topic['user_id']);
             $topics[$key]['votes'] = $vote_manager->getTopicVotes($topic['id']) ?? [];
             // check if user has voted
-            $topics[$key]['voted'] = $vote_manager->getUserVoteOption($topic['user_id'], $topic['id']) ?? '';
+            $topics[$key]['voted'] = $vote_manager->getUserVoteOption($user_id, $topic['id']) ?? '';
             $topics[$key]['comments'] = $comment_manager->getComments($topic['id']) ?? [];
             $topics[$key]['created_at'] = TimeFormatter::formatTimestamp(strtotime($topic['created_at']));
         }

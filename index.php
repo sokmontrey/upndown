@@ -17,8 +17,8 @@ spl_autoload_register(function ($class) {
 });
 
 if (session_status() == PHP_SESSION_NONE) session_start();
-//define("THEME", Session::getSession('theme') ?? 'light');
-define("THEME", 'dark');
+define("THEME", Session::getSession('theme') ?? 'light');
+//define("THEME", 'light');
 
 // -------------------------------- Routing --------------------------------
 

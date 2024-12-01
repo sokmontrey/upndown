@@ -1,198 +1,295 @@
 body {
-    padding: 0.5rem 2rem;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background: var(--bg-color);
+    color: var(--txt-color);
 }
 
-a {
-    text-decoration: none;
-    color: var(--primary-color);
-    display: block;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
+h1, h2 {
+    font-size: 1.5rem;
+    font-family: var(--sans-font), sans-serif;
+}
+
+.success-color {
+    color: var(--suc-color);
+}
+
+.error-color {
+    color: var(--err-color);
 }
 
 p, h1 {
-    margin: 0rem;
+    margin: 0 0;
 }
 
-#theme-btn {
-    background: var(--text2-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 100%;
-    transition: all 0.2s ease-in-out;
-}
-
-#theme-btn:hover {
-    background: var(--text-color);
-    color: var(--bg-color);
+a {
+    color: var(--prm-color);
+    transition: all 0.1s ease-out;
 }
 
 a:hover {
-    transform: translateY(-2px);
-    color: var(--text-color);
+    color: var(--suc-color);
 }
 
-label input {
-    margin-left: 1rem;
+label {
+    color: var(--txt-color);
 }
 
-.flex {
+header {
+    padding: 1rem;
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.flex-1 {
-    flex: 1;
+#app-logo {
+    /*padding: 1.4rem 2rem;*/
+    color: var(--txt-color);
 }
 
-#registration-form,
-#login-form {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    align-items: center;
-    text-align: right;
-    gap: 0 1rem;
-    width: 70%;
-    margin: 5rem auto;
-    border: solid 3px var(--text2-color);
-    padding: 0 2.3rem 1rem;
-}
-
-#registration-form > div,
-#login-form > div {
-    text-align: left;
-    grid-column: span 2;
+.profile-logo {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background: var(--sur-color);
+    color: var(--txt-color);
     display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s ease-out;
 }
 
-#registration-form > div > p,
-#login-form > div >p {
-    flex: 1;
+.profile-logo:hover {
+    translate: -2px -2px;
+    box-shadow: 2px 2px 0 var(--txt-color);
+    background: var(--prm-color);
+    color: var(--bg-color);
 }
 
-#registration-form h1,
-#login-form h1 {
-    display: inline;
-    padding: 0rem 1rem;
-    font-size: 1.5rem;
+.profile-logo:active {
+    translate: 0 0;
+    box-shadow: 0 0;
+    background: var(--suc-color);
+    color: var(--bg-color);
+}
+
+form{
+    width: 35%;
+    margin: 0 auto;
+    background: var(--sur-color);
+    padding: 2.5rem 3rem 3rem;
+    border-radius: 3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+form h1 {
+    margin-bottom: 2rem;
+    color: var(--txt-sec-color);
+}
+
+input, textarea {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border: none;
+    background: none;
+    color: var(--txt-color);
+    outline: none;
+    border-left: 3px solid var(--txt-sec-color);
+    margin-top: 0.5rem;
+    transition: all 0.1s ease-out;
+    font-size: 1.1rem;
+    font-family: var(--mono-font), monospace;
+}
+
+input:hover, textarea:hover {
+    border-left: 7px solid var(--txt-color);
     background: var(--bg-color);
 }
 
-.primary-btn {
-    padding: 0.2rem 1rem;
-    background: var(--primary-color);
-    color: var(--bg-color);
-    /*border-radius: 5px;*/
-    font-weight: bold;
-    transition: all 0.2s ease-in-out;
+input:focus, textarea:focus {
+    background: var(--bg-color);
+    border-left: 7px solid var(--prm-color);
+    color: var(--prm-color);
 }
 
-button.primary-btn {
+button {
+    padding: 0.5rem 1rem;
+    background: var(--prm-color);
+    font-family: var(--mono-font), monospace;
+    font-size: 1rem;
+    margin: 1rem 0;
     border: none;
-    padding: 0.5rem 1rem;
+    transition: all 0.1s ease-out;
 }
 
-.primary-btn:hover{
-    background: var(--text-color);
-    transform: translateY(-2px);
-    color: var(--bg-color);
+button:hover {
+    translate: -2px -2px;
+    box-shadow: 2px 2px 0 var(--txt-color);
 }
 
-.secondary-btn {
-    color: var(--text2-color);
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-}
-
-hr {
-    border: 1px solid var(--text2-color);
-}
-
-textarea, input {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-left: 3px solid var(--primary-color);
-    background: var(--text2-color);
-    color: var(--text-color);
-    outline: none;
-    font-family: "DM Mono", monospace;
-    margin: 0.3rem 0;
-    transition: all 0.1s ease-in-out;
-}
-
-textarea:hover,
-input:hover{
-    border-left: 7px solid var(--primary-color);
-}
-
-textarea:focus,
-input:focus {
-    border-left: 7px solid var(--text-color);
+button:active {
+    background: var(--suc-color);
+    translate: 0 0;
+    box-shadow: 0 0;
 }
 
 #message-container {
+    background: var(--prm-color);
+    border-radius: 3rem;
+    padding: 1rem 1.5rem ;
     position: fixed;
     top: 1rem;
-    right: 1rem;
-    padding: 0.1rem 2rem;
-    background: var(--text2-color);
-    border-radius: 5px;
-    animation: fadeout 4s forwards;
-}
-
-#message-container #error {
-    color: #f85944;
-}
-
-#message-container #success {
-    color: var(--primary-color);
+    left: 50%;
+    transform: translateX(-50%);
+    animation: fadeout 5s forwards;
 }
 
 @keyframes fadeout {
-    from {
+    0% {
         opacity: 1;
     }
     70% {
         opacity: 1;
     }
-    to {
-        opacity: 0;
+    100% {
         display: none;
+        opacity: 0;
     }
 }
 
-.topic-container {
-    border-left: 3px solid var(--primary-color);
-    padding-left: 1rem;
-    margin: 0 0 3rem -2.3rem;
-    list-style-type: none;
-}
-
-.vote-history-container {
-    margin: 0 0 0 -2rem;
-    list-style-type: none;
-}
-
-p {
-    margin: 0.5rem 0;
-}
-
-.profile-logo {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 100%;
+#topic-form {
+    background: var(--sur-color);
+    padding: 2rem;
+    border-radius: 2rem;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    position: sticky;
+    top: 4rem;
+}
+
+#topic-form label {
+    color: var(--txt-sec-color);
+}
+
+#topic-form h1 {
+    color: var(--txt-color);
+}
+
+#main-container {
+    width: 70%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: start;
+}
+
+#main-container #topics {
+    flex: 1;
+}
+
+#topics {
+    margin-left: 1rem;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.topic-container {
+    background: var(--sur-color);
+    padding: 2rem;
+    margin: 1rem 0;
+    border-radius: 2rem;
+    list-style: none;
+}
+
+.topic-container li {
+    margin: 0.5rem 1.5rem;
+    color: var(--txt-sec-color);
+}
+
+.topic-container h2 {
+    font-family: var(--sans-font), sans-serif;
+    font-size: 1.4rem;
+    color: var(--txt-color);
+    margin: 0;
+}
+
+.topic-container form{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
     align-items: center;
-    color: var(--bg-color);
+}
+
+.topic-container input {
+    margin: 0;
+    width: 100%;
+    font-size: 0.8rem;
+}
+
+.create-info {
+    display: flex;
+    margin: 1rem 0;
+    opacity: 0.5;
+}
+
+.vote-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 1.2rem;
-    background: var(--primary-color);
+}
+
+.vote-container a {
+    text-decoration: none;
+    padding: 0.5rem;
+}
+
+#back-button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    color: var(--txt-color);
+}
+
+#back-button:hover {
+    color: var(--prm-color);
+}
+
+#setting-container {
+    display: none;
+    background: var(--prm-color);
+    flex-direction: column;
+    position: fixed;
+    right: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+#setting-container * {
+    margin: 0.5rem 0;
+    color: var(--txt-color);
+}
+
+#profile-container:hover > #setting-container,
+#setting-container:hover {
+    display: flex;
+}
+
+#voting-container {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 4rem;
+    padding: 0 2rem;
+}
+
+#voting-container li {
+    margin: 1rem 0;
+    list-style: none;
 }
