@@ -2,6 +2,8 @@
 
 define("BASE_PATH", rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'));
 
+date_default_timezone_set('America/Toronto');
+
 require_once 'app/core/Controller.php';
 require_once 'app/core/Model.php';
 require_once 'app/core/TimeFormatter.php';
@@ -31,6 +33,12 @@ $uri = explode('/', $uri); // split the uri
 
 $controller_name = $uri[0] === '' ? 'home' : $uri[0];
 $action_name = $uri[1] ?? 'index';
+
+// controller_name contains the word 'professor' redirect to prefessor.php
+if ($controller_name === 'professor' || $controller_name === 'professor.php') {
+    require_once 'professor.php';
+    exit();
+}
 
 // format controller name to match the class name
 $controller_name = ucfirst($controller_name) . 'Controller';
